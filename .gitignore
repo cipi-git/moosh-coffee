@@ -1,0 +1,10 @@
+# Sistem
+.DS_Store
+Thumbs.db
+
+# Node / build (dacă adaugi un backend sau vite în viitor)
+node_modules/
+dist/
+build/
+.cache/
+.env
