@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Charlton Kings</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"
+      defer
+    ></script>
+
+    <link rel="stylesheet" href="assets/styles.css" />
+  </head>
+  <body>
+    <canvas id="stars"></canvas>
+
+    <header class="container header">
+      <div class="logo">
+        <img src="assets/images/moos.png" alt="MooshCo Logo" />
+      </div>
+
+      <nav class="nav">
+        <a href="index.html">Home</a>
+
+        <div class="nav-dropdown">
+          <a class="dropdown-toggle" style="cursor: pointer">Our Stores</a>
+          <div class="dropdown-menu">
+            <a href="store-charlton-kings.html">Charlton Kings</a>
+            <a href="store-site.html">Moosh at the SITE</a>
+            <a href="store-mx.html">Moosh at the MX</a>
+          </div>
+        </div>
+
+        <a href="about.html">About Us</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </header>
+
+    <main class="container section">
+      <h1 class="title">Charlton Kings</h1>
+
+      <p style="text-align: center">Our original home.</p>
+
+      <div style="text-align: center; margin-top: 20px">
+        <a
+          href="https://www.google.com/maps/search/?api=1&query=Moosh+Charlton+Kings+GL53+8JN"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-secondary"
+          style="text-decoration: none"
+        >
+          See on the map.
+        </a>
+      </div>
+
+      <section class="review-carousel-section">
+        <h2>What Our Customers Say</h2>
+
+        <div class="swiper review-swiper">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <article class="review-card">
+                <blockquote>
+                  <p>
+                    "We just love this place... The owners really give the
+                    personal touch, nothing is too much trouble. It's very dog
+                    and child friendly. Can't imagine CK without Moosh!"
+                  </p>
+                  <footer>— Sarah L. (via Google Maps)</footer>
+                </blockquote>
+              </article>
+            </div>
+
+            <div class="swiper-slide">
+              <article class="review-card">
+                <blockquote>
+                  <p>
+                    "The heart of the village. It’s our go-to for a Saturday
+                    morning coffee and pastry. The staff know everyone by name,
+                    it just feels like home."
+                  </p>
+                  <footer>— Ben W. (via Google Maps)</footer>
+                </blockquote>
+              </article>
+            </div>
+
+            <div class="swiper-slide">
+              <article class="review-card">
+                <blockquote>
+                  <p>
+                    "A lovely, welcoming atmosphere and the cakes are simply
+                    unreal. So nice to have a proper independent coffee shop in
+                    the neighbourhood."
+                  </p>
+                  <footer>— Chloe G. (via Google Maps)</footer>
+                </blockquote>
+              </article>
+            </div>
+          </div>
+
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-button-next"></div>
+          <div class="swiper-pagination"></div>
+        </div>
+      </section>
+
+      <div class="map-responsive-container">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2462.854687989953!2d-2.0511198!3d51.881865!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48711b3c28b1f93f%3A0xe4ee6428531f767b!2sMoosh%20Charlton%20Kings!5e0!3m2!1sro!2suk!4v1761909955304!5m2!1sro!2suk"
+          width="300"
+          height="250"
+          style="border: 0"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        >
+        </iframe>
+      </div>
+    </main>
+
+    <footer class="container footer">
+      <div class="footer-icons">
+        <a href="mailto:hello@mooshco.com" aria-label="Send us an email">
+          <i class="fa-solid fa-envelope"></i>
+        </a>
+        <a href="tel:+447837845099" aria-label="Call us">
+          <i class="fa-solid fa-phone"></i>
+        </a>
+        <a
+          href="https://www.facebook.com/mooshco"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Visit our Facebook page"
+        >
+          <i class="fa-brands fa-facebook"></i>
+        </a>
+        <a
+          href="https://www.instagram.com/mooshco/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Visit our Instagram page"
+        >
+          <i class="fa-brands fa-instagram"></i>
+        </a>
+      </div>
+
+      <div class="footer-copyright">© 2025 Moosh Co</div>
+    </footer>
+
+    <script src="assets/stars.js" defer></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        new Swiper(".review-swiper", {
+          slidesPerView: 1,
+          spaceBetween: 30,
+          loop: true,
+          pagination: { el: ".swiper-pagination", clickable: true },
+          navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+          },
+        });
+      });
+    </script>
+  </body>
+</html>

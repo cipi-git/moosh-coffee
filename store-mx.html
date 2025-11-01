@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Moosh at the MX - MooshCo</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"
+      defer
+    ></script>
+
+    <link rel="stylesheet" href="assets/styles.css" />
+  </head>
+  <body>
+    <canvas id="stars"></canvas>
+
+    <header class="container header">
+      <div class="logo">
+        <img src="assets/images/moos.png" alt="MooshCo Logo" />
+      </div>
+
+      <nav class="nav">
+        <a href="index.html">Home</a>
+
+        <div class="nav-dropdown">
+          <a class="dropdown-toggle" style="cursor: pointer">Our Stores</a>
+          <div class="dropdown-menu">
+            <a href="store-charlton-kings.html">Charlton Kings</a>
+            <a href="store-site.html">Moosh at the SITE</a>
+            <a href="store-mx.html">Moosh at the MX</a>
+          </div>
+        </div>
+
+        <a href="about.html">About Us</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </header>
+
+    <main class="container section">
+      <h1 class="title">Moosh at the MX (2025)</h1>
+      <p style="text-align: center">Our Location.</p>
+
+      <div style="text-align: center; margin-top: 20px; margin-bottom: 30px">
+        <a
+          href="https://maps.app.goo.gl/TFyJitHx94n2ryzH9"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-secondary"
+        >
+          See on the map.
+        </a>
+      </div>
+
+      <section class="review-carousel-section">
+        <h2>What Our Customers Say</h2>
+
+        <div class="swiper review-swiper">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <article class="review-card">
+                <blockquote>
+                  <p>
+                    "Looking for a great cup of coffee, a quick snack or a place
+                    to relax during your work day? Moosh Coffee is here to make
+                    it all happen."
+                  </p>
+                  <footer>— As quoted by Hub8 in the MX Centre</footer>
+                </blockquote>
+              </article>
+            </div>
+
+            <div class="swiper-slide">
+              <article class="review-card">
+                <blockquote>
+                  <p>
+                    "This is my go-to spot for getting work done. The espresso
+                    is genuinely the best in town, and the vibe is perfect for
+                    focusing."
+                  </p>
+                  <footer>— Alex P. (via Google Maps)</footer>
+                </blockquote>
+              </article>
+            </div>
+
+            <div class="swiper-slide">
+              <article class="review-card">
+                <blockquote>
+                  <p>
+                    "A hidden gem inside the MX building. Fantastic flat white
+                    and the staff are always super friendly. Great for a quiet
+                    read or meeting."
+                  </p>
+                  <footer>— Emily R. (via Google Maps)</footer>
+                </blockquote>
+              </article>
+            </div>
+          </div>
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-button-next"></div>
+          <div class="swiper-pagination"></div>
+        </div>
+      </section>
+
+      <div class="map-responsive-container">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4923.533614750866!2d-2.0869249105453487!3d51.90171957830009!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48711bedbb8d7aaf%3A0x4092f92ae1ae610c!2sMoosh%20At%20The%20MX!5e0!3m2!1sro!2suk!4v1761910741602!5m2!1sro!2suk"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        >
+        </iframe>
+      </div>
+    </main>
+    <footer class="container footer">
+      <div class="footer-icons">
+        <a href="mailto:hello@mooshco.com" aria-label="Send us an email">
+          <i class="fa-solid fa-envelope"></i>
+        </a>
+        <a href="tel:+447837845099" aria-label="Call us">
+          <i class="fa-solid fa-phone"></i>
+        </a>
+        <a
+          href="https://www.facebook.com/mooshco"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Visit our Facebook page"
+        >
+          <i class="fa-brands fa-facebook"></i>
+        </a>
+        <a
+          href="https://www.instagram.com/mooshco/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Visit our Instagram page"
+        >
+          <i class="fa-brands fa-instagram"></i>
+        </a>
+      </div>
+
+      <div class="footer-copyright">© 2025 Moosh Co</div>
+    </footer>
+
+    <script src="assets/stars.js" defer></script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const swiper = new Swiper(".review-swiper", {
+          slidesPerView: 1,
+          spaceBetween: 30,
+          loop: true,
+          pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+          },
+          navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+          },
+        });
+      });
+    </script>
+  </body>
+</html>
