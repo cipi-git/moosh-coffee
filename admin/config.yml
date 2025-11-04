@@ -2,104 +2,14 @@ backend:
   name: git-gateway
   branch: main
 
-local_backend: true
-
 media_folder: "assets/images/uploads"
 public_folder: "/assets/images/uploads"
 
-site_url: "https://moosh-coffee.netlify.app"
-
-logo_url: "/assets/images/moosh.jpg"
-
 collections:
-  - name: "pages"
-    label: "Pages"
-    folder: "src/content/pages"
-    create: false
+  - name: "test"
+    label: "Test"
+    folder: "src/content/test"
+    create: true
     format: "json"
-    slug: "{{slug}}"
     fields:
       - { label: "Title", name: "title", widget: "string" }
-      - { label: "Slug", name: "slug", widget: "string" }
-      - { label: "Hero Image", name: "heroImage", widget: "image", required: false }
-      - { label: "Intro", name: "intro", widget: "text", required: false }
-      - label: "Sections"
-        name: "sections"
-        widget: "list"
-        fields:
-          - { label: "Heading", name: "heading", widget: "string" }
-          - { label: "Body", name: "body", widget: "markdown" }
-          - { label: "Image", name: "image", widget: "image", required: false }
-
-  - name: "locations"
-    label: "Locations"
-    folder: "src/content/locations"
-    create: true
-    format: "json"
-    slug: "{{fields.slug}}"
-    identifier_field: "name"
-    fields:
-      - { label: "Name", name: "name", widget: "string" }
-      - { label: "Slug", name: "slug", widget: "string" }
-      - { label: "Address", name: "address", widget: "text" }
-      - { label: "Google Maps Embed URL", name: "mapEmbed", widget: "string", required: false }
-      - { label: "Phone", name: "phone", widget: "string", required: false }
-      - { label: "Open Hours", name: "hours", widget: "text", required: false }
-      - label: "Gallery"
-        name: "gallery"
-        widget: "list"
-        fields:
-          - { label: "Image", name: "image", widget: "image" }
-          - { label: "Alt", name: "alt", widget: "string", required: false }
-          - { label: "Caption", name: "caption", widget: "string", required: false }
-
-  - name: "menu"
-    label: "Menu"
-    folder: "src/content/menu"
-    create: true
-    format: "json"
-    slug: "{{fields.slug}}"
-    fields:
-      - { label: "Name", name: "name", widget: "string" }
-      - { label: "Slug", name: "slug", widget: "string" }
-      - { label: "Category", name: "category", widget: "select", options: ["Coffee", "Tea", "Bakery", "Seasonal", "Other"] }
-      - { label: "Price (£)", name: "price", widget: "number", value_type: "float", min: 0 }
-      - { label: "Description", name: "description", widget: "text", required: false }
-      - { label: "Image", name: "image", widget: "image", required: false }
-      - { label: "Available", name: "available", widget: "boolean", default: true }
-
-  - name: "reviews"
-    label: "Reviews"
-    folder: "src/content/reviews"
-    create: true
-    format: "json"
-    slug: "{{fields.slug}}"
-    fields:
-      - { label: "Author", name: "author", widget: "string" }
-      - { label: "Slug", name: "slug", widget: "string" }
-      - { label: "Rating (1–5)", name: "rating", widget: "number", min: 1, max: 5 }
-      - { label: "Quote", name: "quote", widget: "text" }
-
-  - name: "settings"
-    label: "Settings"
-    delete: false
-    format: "json"
-    files:
-      - label: "Site Settings"
-        name: "site"
-        file: "src/content/settings.json"
-        fields:
-          - { label: "Site Name", name: "siteName", widget: "string" }
-          - { label: "Tagline", name: "tagline", widget: "string", required: false }
-          - label: "Navigation"
-            name: "nav"
-            widget: "list"
-            fields:
-              - { label: "Label", name: "label", widget: "string" }
-              - { label: "Href", name: "href", widget: "string" }
-          - label: "Social"
-            name: "social"
-            widget: "list"
-            fields:
-              - { label: "Network", name: "network", widget: "string" }
-              - { label: "URL", name: "url", widget: "string" }
