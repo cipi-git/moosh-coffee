@@ -6,35 +6,13 @@
     <title>Moosh Coffee Admin</title>
   </head>
   <body>
+    <!-- containerul în care se montează UI-ul Decap -->
     <div id="nc-root"></div>
 
-    <!-- 1) anunță că vrei init manual ÎNAINTE de a încărca Decap -->
-    <script>window.CMS_MANUAL_INIT = true;</script>
-
-    <!-- 2) Netlify Identity (login) -->
+    <!-- Netlify Identity (login) -->
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 
-    <!-- 3) Decap CMS (pinned stabil) -->
+    <!-- Decap CMS (versiune stabilă) - auto-init citind /admin/config.yml -->
     <script src="https://unpkg.com/decap-cms@3.0.11/dist/decap-cms.js"></script>
-
-    <!-- 4) abia ACUM poți apela CMS.init() -->
-    <script>
-      console.log("[Moosh CMS] admin loaded");
-      if (window.netlifyIdentity) {
-        window.netlifyIdentity.on("init", (user) => {
-          if (!user) window.netlifyIdentity.on("login", () => location.reload());
-        });
-        window.netlifyIdentity.on("logout", () => location.reload());
-      }
-
-      // dacă scriptul încă nu e gata, mai așteptăm puțin
-      (function waitForCMS(){
-        if (window.CMS && typeof window.CMS.init === "function") {
-          window.CMS.init();           // va citi automat /admin/config.yml
-        } else {
-          setTimeout(waitForCMS, 50);
-        }
-      })();
-    </script>
   </body>
 </html>
