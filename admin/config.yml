@@ -8,6 +8,7 @@ media_folder: "assets/images/uploads"
 public_folder: "/assets/images/uploads"
 
 site_url: "https://moosh-coffee.netlify.app"
+
 logo_url: "/assets/images/moosh.jpg"
 
 collections:
