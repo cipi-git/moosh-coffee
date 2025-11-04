@@ -1,0 +1,9 @@
+{
+  "name": "Espresso",
+  "slug": "espresso",
+  "category": "Coffee",
+  "price": 2.5,
+  "description": "Classic double shot of Clifton Coffee espresso.",
+  "image": "/assets/images/capuchino-drinks.jpeg",
+  "available": true
+}

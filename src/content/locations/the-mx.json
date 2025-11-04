@@ -1,0 +1,15 @@
+{
+  "name": "Moosh Coffee — The MX",
+  "slug": "the-mx",
+  "address": "The MX, Cheltenham, GL50 ...",
+  "mapEmbed": "https://www.google.com/maps/embed?...",
+  "phone": "+44 0000 000002",
+  "hours": "Mon–Fri 8–5, Sat–Sun 9–4",
+  "gallery": [
+    {
+      "image": "/assets/images/MX moosh.jpg",
+      "alt": "The MX location",
+      "caption": "A modern espresso bar with soul"
+    }
+  ]
+}

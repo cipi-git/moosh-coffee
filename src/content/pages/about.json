@@ -1,0 +1,16 @@
+{
+  "title": "About Moosh",
+  "slug": "about",
+  "heroImage": "/assets/images/about us.jpg",
+  "intro": "We started Moosh Coffee with one mission — to bring people together through exceptional coffee and atmosphere.",
+  "sections": [
+    {
+      "heading": "Our Story",
+      "body": "Moosh Coffee Co. was founded by a small team of passionate baristas and dreamers in Cheltenham. We believe coffee should be an experience — not just a drink."
+    },
+    {
+      "heading": "Our Beans",
+      "body": "We proudly brew Clifton Coffee, roasted locally with precision and care to create the perfect espresso for every cup."
+    }
+  ]
+}

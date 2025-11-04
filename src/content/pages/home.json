@@ -1,0 +1,13 @@
+{
+  "title": "Moosh Coffee Co.",
+  "slug": "/",
+  "heroImage": "/assets/images/moosh.jpg",
+  "intro": "Warm, modern, independent coffee in Cheltenham.",
+  "sections": [
+    {
+      "heading": "Our Coffee & Food Moments",
+      "body": "We serve freshly roasted espresso, homemade bakery, and brunch classics — always with a smile.",
+      "image": "/assets/images/our-coffee.jpg"
+    }
+  ]
+}

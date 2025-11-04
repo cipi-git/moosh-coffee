@@ -1,0 +1,15 @@
+{
+  "name": "Moosh Coffee — The SITE",
+  "slug": "the-site",
+  "address": "The SITE, Cheltenham, GL51 ...",
+  "mapEmbed": "https://www.google.com/maps/embed?...",
+  "phone": "+44 0000 000001",
+  "hours": "Mon–Fri 8–5, Sat–Sun 9–4",
+  "gallery": [
+    {
+      "image": "/assets/images/at the site.jpg",
+      "alt": "Inside The SITE café",
+      "caption": "Our creative hub for coffee & collaboration"
+    }
+  ]
+}
