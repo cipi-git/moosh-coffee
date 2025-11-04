@@ -7,39 +7,7 @@
   </head>
   <body>
     <div id="nc-root"></div>
-
-    <!-- 1) Identity -->
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-
-    <!-- 2) Decap CMS (pinned stabil) -->
     <script src="https://unpkg.com/decap-cms@3.0.11/dist/decap-cms.js"></script>
-
-    <!-- 3) Inițializare manuală, fără config extern -->
-    <script>
-      // așteaptă încărcarea CMS, apoi pornește cu un config minim
-      (function waitForCMS(){
-        if (window.CMS && typeof window.CMS.init === "function") {
-          window.CMS.init({
-            config: {
-              backend: { name: "git-gateway", branch: "main" },
-              media_folder: "assets/images/uploads",
-              public_folder: "/assets/images/uploads",
-              collections: [
-                {
-                  name: "test",
-                  label: "Test",
-                  folder: "src/content/test",
-                  create: true,
-                  format: "json",
-                  fields: [{ label: "Title", name: "title", widget: "string" }]
-                }
-              ]
-            }
-          });
-        } else {
-          setTimeout(waitForCMS, 50);
-        }
-      })();
-    </script>
   </body>
 </html>
