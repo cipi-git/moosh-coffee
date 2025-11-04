@@ -4,10 +4,58 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Moosh Coffee Admin</title>
+    <style>
+      body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial; }
+      .debug { position: fixed; bottom: 8px; left: 8px; font-size: 12px; opacity: .7; }
+    </style>
   </head>
   <body>
     <div id="nc-root"></div>
+    <div class="debug" id="dbg">loading…</div>
+
+    <!-- Netlify Identity -->
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-    <script src="https://unpkg.com/decap-cms@3.0.11/dist/decap-cms.js"></script>
+
+    <!-- Decap CMS (LOCAL e mai sigur; dacă nu l-ai salvat local, vezi pasul 2) -->
+    <script src="/assets/decap-cms.js"></script>
+
+    <script>
+      const dbg = (m)=>{ console.log(m); var el=document.getElementById('dbg'); if(el) el.textContent=m; };
+      window.onerror = (msg, src, line, col, err) => { console.error('onerror:', msg, src, line, col, err); dbg('JS error — vezi Console'); };
+      window.onunhandledrejection = e => { console.error('unhandled:', e.reason || e); dbg('Promise error — vezi Console'); };
+
+      dbg('admin boot…');
+
+      // PAS 1: confirmă că s-a încărcat bundle-ul
+      (function waitForCMS(){
+        if (window.CMS && typeof window.CMS.init === "function") {
+          dbg('CMS ready, init…');
+
+          // Init MANUAL cu config inline minim
+          window.CMS.init({
+            config: {
+              backend: { name: "git-gateway", branch: "main" },
+              media_folder: "assets/images/uploads",
+              public_folder: "/assets/images/uploads",
+              collections: [
+                {
+                  name: "test",
+                  label: "Test",
+                  folder: "src/content/test",
+                  create: true,
+                  format: "json",
+                  fields: [{ label: "Title", name: "title", widget: "string" }]
+                }
+              ]
+            }
+          });
+
+          dbg('CMS.init() called. Dacă nu vezi UI, verifică Identity/Git Gateway.');
+        } else {
+          dbg('Aștept CMS…');
+          setTimeout(waitForCMS, 100);
+        }
+      })();
+    </script>
   </body>
 </html>
