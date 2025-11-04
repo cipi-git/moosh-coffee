@@ -4,7 +4,28 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Moosh Coffee Admin</title>
-    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+    <!-- Netlify Identity (login widget) -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <!-- Decap CMS core -->
+    <script src="https://unpkg.com/decap-cms@^3.3.0/dist/decap-cms.js"></script>
   </head>
-  <body></body>
+  <body>
+    <script>
+      console.log("[Moosh CMS] admin loaded"); // debug vizibil în DevTools
+
+      // Redirecții după login/logout
+      if (window.netlifyIdentity) {
+        window.netlifyIdentity.on("init", (user) => {
+          if (!user) {
+            window.netlifyIdentity.on("login", () => location.reload());
+          }
+        });
+        window.netlifyIdentity.on("logout", () => location.reload());
+      }
+
+      // Fallback de test: dacă încă e alb, decomentează MANUAL_INIT (2 linii de mai jos)
+      // window.CMS_MANUAL_INIT = true;
+      // CMS.init({ config: { backend: { name: "git-gateway", branch: "main" }, media_folder: "assets/images/uploads", public_folder: "/assets/images/uploads", collections: [{ name: "test", label: "Test", folder: "src/content/test", create: true, format: "json", fields: [{label:"Title",name:"title",widget:"string"}]}] } });
+    </script>
+  </body>
 </html>
