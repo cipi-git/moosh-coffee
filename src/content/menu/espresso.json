@@ -2,8 +2,9 @@
   "name": "Espresso",
   "slug": "espresso",
   "category": "Coffee",
-  "price": 2.5,
-  "description": "Classic double shot of Clifton Coffee espresso.",
+  "price": "N/A",
+  "description": "Classic double shot of Clifton Coffee espresso, made with love.",
   "image": "/assets/images/capuchino-drinks.jpeg",
-  "available": true
+  "available": true,
+  "title": "Capuccino"
 }
