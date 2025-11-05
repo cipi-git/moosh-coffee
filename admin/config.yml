@@ -2,14 +2,82 @@ backend:
   name: git-gateway
   branch: main
 
+local_backend: true
+publish_mode: editorial_workflow
+
 media_folder: "assets/images/uploads"
 public_folder: "/assets/images/uploads"
 
 collections:
-  - name: "test"
-    label: "Test"
-    folder: "src/content/test"
+  - name: pages
+    label: Pages
+    files:
+      - label: Home
+        name: home
+        file: "src/content/pages/home.json"
+        format: json
+        fields:
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Subtitle", name: "subtitle", widget: "string", required: false }
+          - { label: "Hero Image", name: "heroImage", widget: "image", required: false }
+          - { label: "Body", name: "body", widget: "text", required: false }
+
+      - label: About
+        name: about
+        file: "src/content/pages/about.json"
+        format: json
+        fields:
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Body", name: "body", widget: "text" }
+
+  - name: locations
+    label: Locations
+    folder: "src/content/locations"
     create: true
-    format: "json"
+    slug: "{{slug}}"
+    format: json
     fields:
-      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Name", name: "name", widget: "string" }
+      - { label: "Address", name: "address", widget: "string" }
+      - { label: "Google Maps URL", name: "mapUrl", widget: "string" }
+      - { label: "Opening Hours", name: "hours", widget: "text", required: false }
+      - { label: "Order", name: "order", widget: "number", value_type: "int", min: 0, required: false }
+      - { label: "Hero Image", name: "image", widget: "image", required: false }
+
+  - name: menu
+    label: Menu
+    folder: "src/content/menu"
+    create: true
+    slug: "{{slug}}"
+    format: json
+    fields:
+      - { label: "Item Name", name: "title", widget: "string" }
+      - { label: "Price", name: "price", widget: "string" }
+      - { label: "Category", name: "category", widget: "select", options: ["Coffee","Food","Tea","Specials"] }
+      - { label: "Image", name: "image", widget: "image", required: false }
+      - { label: "Description", name: "description", widget: "text", required: false }
+      - { label: "Order", name: "order", widget: "number", value_type: "int", min: 0, required: false }
+
+  - name: reviews
+    label: Reviews
+    folder: "src/content/reviews"
+    create: true
+    slug: "{{slug}}"
+    format: json
+    fields:
+      - { label: "Name", name: "name", widget: "string" }
+      - { label: "Rating", name: "rating", widget: "number", min: 1, max: 5, step: 0.5 }
+      - { label: "Text", name: "text", widget: "text" }
+      - { label: "Date", name: "date", widget: "datetime" }
+
+  - name: settings
+    label: Settings
+    files:
+      - label: Site Settings
+        name: site
+        file: "src/content/settings/site.json"
+        format: json
+        fields:
+          - { label: "Site Title", name: "siteTitle", widget: "string" }
+          - { label: "Tagline", name: "tagline", widget: "string", required: false }
+          - { label: "Primary Color", name: "primaryColor", widget: "string", required: false }
