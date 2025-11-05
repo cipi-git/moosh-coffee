@@ -147,5 +147,18 @@
     </footer>
 
     <script src="assets/stars.js" defer></script>
+    <script>
+fetch("/src/content/pages/about.json")
+  .then(res => res.json())
+  .then(data => {
+    const titleEl = document.querySelector("h1");
+    const bodyEl = document.querySelector("p, .text, .content");
+
+    if (titleEl) titleEl.textContent = data.title || "About Moosh";
+    if (bodyEl) bodyEl.textContent = data.body || "Our story goes here.";
+  })
+  .catch(err => console.error("Eroare la încărcarea datelor CMS:", err));
+</script>
+
   </body>
 </html>
