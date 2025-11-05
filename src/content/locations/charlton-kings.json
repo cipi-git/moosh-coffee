@@ -4,12 +4,13 @@
   "address": "Charlton Kings, Cheltenham, GL52 ...",
   "mapEmbed": "https://www.google.com/maps/embed?...",
   "phone": "+44 0000 000000",
-  "hours": "Mon–Fri 8–5, Sat–Sun 9–4",
+  "hours": "Mon–Fri 8:30 am - 4:00 pm /\nSaturday 9:00 am - 2:00 pm / \nSunday 10:00 am - 1:00 pm\n",
   "gallery": [
     {
       "image": "/assets/images/charlton kings.webp",
       "alt": "Charlton Kings shop front",
       "caption": "Our cozy spot in Charlton Kings"
     }
-  ]
+  ],
+  "mapUrl": "https://maps.app.goo.gl/36bb4jEjXwnn4QAa8"
 }
