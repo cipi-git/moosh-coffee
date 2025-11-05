@@ -248,5 +248,45 @@ fetch("/src/content/pages/home.json")
   .catch(err => console.error("Eroare la încărcarea datelor CMS:", err));
 </script>
 
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+  try {
+    const response = await fetch("/src/content/pages/home.json?cache=" + Date.now());
+    console.log("[CMS] Status:", response.status);
+    if (!response.ok) throw new Error("JSON not found");
+
+    const data = await response.json();
+    console.log("[CMS] Data:", data);
+
+    // Schimbă textele de pe pagină cu cele din CMS
+    const titleEl = document.querySelector("h1, #home-title");
+    const subtitleEl = document.querySelector("h2, #home-subtitle");
+    const bodyEl = document.querySelector("p, #home-body");
+
+    if (titleEl) titleEl.textContent = data.title || "Moosh Coffee";
+    if (subtitleEl) subtitleEl.textContent = data.subtitle || "";
+    if (bodyEl) bodyEl.textContent = data.body || "";
+
+    // Badge de confirmare vizibil
+    const badge = document.createElement("div");
+    badge.textContent = "CMS Connected ✅";
+    Object.assign(badge.style, {
+      position: "fixed",
+      bottom: "10px",
+      right: "10px",
+      padding: "5px 10px",
+      background: "#a0e75a",
+      color: "#000",
+      borderRadius: "8px",
+      font: "12px sans-serif",
+      zIndex: "9999"
+    });
+    document.body.appendChild(badge);
+  } catch (err) {
+    console.error("[CMS] Error:", err);
+  }
+});
+</script>
+
   </body>
 </html>
