@@ -4,14 +4,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Moosh Coffee Co – About Us</title>
-
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     />
     <link rel="stylesheet" href="assets/styles.css" />
-    <script src="/assets/js/cms.js" defer></script>
-
+    <script src="assets/js/cms.js" defer></script>
   </head>
 
   <body data-page="about">
@@ -19,9 +17,12 @@
 
     <header class="container header">
       <div class="logo">
-        <img src="assets/images/moos.png" alt="Moosh Coffee Co Logo"  loading="lazy"/>
+        <img
+          src="assets/images/moos.png"
+          alt="Moosh Coffee Co Logo"
+          loading="lazy"
+        />
       </div>
-
       <nav class="nav">
         <a href="index.html">Home</a>
         <div class="nav-dropdown">
@@ -38,87 +39,50 @@
     </header>
 
     <main class="container section">
-      <h1 class="title">About Us</h1>
+      <h1 class="title" data-cms="title">About Us</h1>
 
       <img
         src="assets/images/about us.jpg"
         alt="Moosh Coffee Co storefront exterior"
         class="about-hero"
-       loading="lazy"/>
+        data-cms-img="heroImage"
+        loading="lazy"
+      />
 
       <section class="about-grid">
-        <div class="about-text">
+        <div class="about-text" data-cms="story">
           <p>
             Moosh Coffee Co. started from a small space in Charlton Kings,
             Cheltenham in 2020.
           </p>
-          <p>
-            Alex took over the business in 2022 and—with his Filipino heritage
-            and a background in luxury hospitality in Dubai—has been making
-            Moosh his own ever since, opening
-            <strong>Moosh at the SiTE</strong> in 2023 and
-            <strong>Moosh at the MX</strong> in 2025.
-          </p>
-          <p>Alex &amp; Dan look forward to welcoming you soon.</p>
+          <p>Alex took over the business in 2022...</p>
         </div>
 
         <figure class="about-media">
           <img
             src="assets/images/CharltonKings.png"
-            alt="Inside Moosh Charlton Kings"
-           loading="lazy"/>
-          <figcaption>Moosh Logo</figcaption>
+            alt="Inside Moosh"
+            loading="lazy"
+          />
         </figure>
       </section>
     </main>
 
     <section class="container more-about">
       <div>
-        <p>
-          Founded in Cheltenham, Moosh Coffee Co. is a group of independent
-          cafés united by a simple mission:
-          <em>great coffee, made with care</em>.
-        </p>
-
-        <p>
-          Each Moosh location brings its own atmosphere — from relaxed mornings
-          to lively afternoons — but always with the same friendly energy and
-          love for great coffee.
-        </p>
-
-        <div class="about-gallery">
+        <div class="about-gallery" data-cms-loop="images">
           <figure>
             <img
               src="assets/images/at the site.jpg"
-              alt="Moosh at the SiTE coffee shop, Chosen View Road"
+              alt="Gallery Item"
+              data-cms-item-img="src"
               loading="lazy"
             />
-            <figcaption>The SiTE (Chosen View Road)</figcaption>
-          </figure>
-          <figure>
-            <img
-              src="assets/images/MX moosh.jpg"
-              alt="Moosh at the MX, Chester Walk"
-              loading="lazy"
-            />
-            <figcaption>The MX (Chester Walk)</figcaption>
-          </figure>
-          <figure>
-            <img
-              src="assets/images/Noosh.jpg"
-              alt="Moosh Charlton Kings, Church Piece"
-              loading="lazy"
-            />
-            <figcaption>Charlton Kings (Church Piece)</figcaption>
+            <figcaption data-cms-item="caption">
+              The SiTE (Chosen View Road)
+            </figcaption>
           </figure>
         </div>
-
-        <p>
-          We proudly serve <strong>Clifton Coffee</strong> — expertly roasted
-          beans with rich notes of rum, raisin, and dark chocolate. From creamy
-          cappuccinos to artisan pastries, Moosh is where good mornings begin
-          and great days are made.
-        </p>
       </div>
     </section>
 
@@ -130,72 +94,16 @@
         <a href="tel:+447837845099" aria-label="Call us"
           ><i class="fa-solid fa-phone"></i
         ></a>
-        <a
-          href="https://www.facebook.com/mooshco"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Visit our Facebook page"
+        <a href="#" target="_blank" aria-label="Facebook"
           ><i class="fa-brands fa-facebook"></i
         ></a>
-        <a
-          href="https://www.instagram.com/mooshco/"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Visit our Instagram page"
+        <a href="#" target="_blank" aria-label="Instagram"
           ><i class="fa-brands fa-instagram"></i
         ></a>
       </div>
       <div class="footer-copyright">© 2025 Moosh Coffee Co</div>
     </footer>
 
-    <script src="assets/stars.js" defer></script>
-    <script>
-fetch("/src/content/pages/about.json")
-  .then(res => res.json())
-  .then(data => {
-    const titleEl = document.querySelector("h1");
-    const bodyEl = document.querySelector("p, .text, .content");
-
-    if (titleEl) titleEl.textContent = data.title || "About Moosh";
-    if (bodyEl) bodyEl.textContent = data.body || "Our story goes here.";
-  })
-  .catch(err => console.error("Eroare la încărcarea datelor CMS:", err));
-</script>
-<script>
-document.addEventListener("DOMContentLoaded", async () => {
-  try {
-    const response = await fetch("/src/content/pages/about.json?cache=" + Date.now());
-    console.log("[CMS-ABOUT] Status:", response.status);
-    if (!response.ok) throw new Error("JSON not found");
-
-    const data = await response.json();
-    console.log("[CMS-ABOUT] Data:", data);
-
-    const titleEl = document.querySelector("h1, #about-title");
-    const bodyEl = document.querySelector("p, #about-body");
-
-    if (titleEl) titleEl.textContent = data.title || "About Moosh";
-    if (bodyEl) bodyEl.textContent = data.body || "";
-
-    const badge = document.createElement("div");
-    badge.textContent = "CMS Connected ✅";
-    Object.assign(badge.style, {
-      position: "fixed",
-      bottom: "10px",
-      right: "10px",
-      padding: "5px 10px",
-      background: "#a0e75a",
-      color: "#000",
-      borderRadius: "8px",
-      font: "12px sans-serif",
-      zIndex: "9999"
-    });
-    document.body.appendChild(badge);
-  } catch (err) {
-    console.error("[CMS-ABOUT] Error:", err);
-  }
-});
-</script>
-
+    <script src="assets/js/stars.js" defer></script>
   </body>
 </html>

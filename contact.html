@@ -4,29 +4,23 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Contact - MooshCo</title>
-
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     />
-
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap"
       rel="stylesheet"
     />
-
     <link rel="stylesheet" href="assets/styles.css" />
-    <script src="/assets/js/cms.js" defer></script>
-
+    <script src="assets/js/cms.js" defer></script>
   </head>
   <body data-page="contact">
     <canvas id="stars"></canvas>
 
     <header class="container header">
       <div class="logo">
-        <img src="assets/images/moos.png" alt="MooshCo Logo"  loading="lazy"/>
+        <img src="assets/images/moos.png" alt="MooshCo Logo" loading="lazy" />
       </div>
       <nav class="nav">
         <a href="index.html">Home</a>
@@ -44,8 +38,11 @@
     </header>
 
     <main class="container section">
-      <h1 class="title">Contact Us</h1>
-      <p style="text-align: center; max-width: 600px; margin: 0 auto 40px">
+      <h1 class="title" data-cms="title">Contact Us</h1>
+      <p
+        style="text-align: center; max-width: 600px; margin: 0 auto 40px"
+        data-cms="intro"
+      >
         Have any thoughts, questions, or feedback? We’re listening.
       </p>
 
@@ -55,17 +52,14 @@
             <label for="name">Name</label>
             <input type="text" id="name" name="name" required />
           </div>
-
           <div class="form-group">
             <label for="email">Email</label>
             <input type="email" id="email" name="email" required />
           </div>
-
           <div class="form-group">
             <label for="message">Feedback / Comments</label>
             <textarea id="message" name="message" rows="6" required></textarea>
           </div>
-
           <div class="form-group">
             <button type="submit" class="btn-submit">
               Send Us Your Message
@@ -82,24 +76,15 @@
         <a href="tel:+447837845099" aria-label="Call us"
           ><i class="fa-solid fa-phone"></i
         ></a>
-        <a
-          href="https://www.facebook.com/mooshco"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Visit our Facebook page"
+        <a href="#" target="_blank" aria-label="Facebook"
           ><i class="fa-brands fa-facebook"></i
         ></a>
-        <a
-          href="https://www.instagram.com/mooshco/"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Visit our Instagram page"
+        <a href="#" target="_blank" aria-label="Instagram"
           ><i class="fa-brands fa-instagram"></i
         ></a>
       </div>
       <div class="footer-copyright">© 2025 Moosh Co</div>
     </footer>
-
-    <script src="assets/stars.js" defer></script>
+    <script src="assets/js/stars.js" defer></script>
   </body>
 </html>

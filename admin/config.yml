@@ -3,111 +3,154 @@ backend:
   branch: main
 
 publish_mode: simple
-
-# Unde se salvează imaginile încărcate prin CMS
 media_folder: "assets/images/uploads"
-# Cum apar imaginile în codul HTML
 public_folder: "/assets/images/uploads"
 
+slug:
+  encoding: "ascii"
+  clean_accents: true
+
 collections:
-  # Colecția 1: Setări Globale (Fișier unic)
+  # --- 1. CONFIGURĂRI GLOBALE (Footer, SEO) ---
   - name: "settings"
-    label: "Global Settings"
+    label: "⚙️ Global Settings"
     files:
-      - label: "Site Settings"
+      - label: "Site Config"
         name: "site"
-        # MODIFICAT: Am scos 'src/' din cale
         file: "content/settings/site.json"
         format: "json"
         fields:
-          - label: "Site title"
-            name: "siteTitle"
-            widget: "string"
-            hint: "Appears in the browser tab and in various parts of the site"
-          - label: "Tagline"
-            name: "tagline"
-            widget: "string"
-            required: false
-          - label: "Primary color"
-            name: "primaryColor"
-            widget: "string"
-            required: false
-            hint: "Ex: #0F2C33 (does not automatically change CSS, content only)"
+          - {
+              label: "Site Title (Browser Tab)",
+              name: "siteTitle",
+              widget: "string",
+            }
+          - { label: "Footer: Email", name: "contactEmail", widget: "string" }
+          - { label: "Footer: Phone", name: "contactPhone", widget: "string" }
+          - { label: "Social: Facebook", name: "socialFb", widget: "string" }
+          - {
+              label: "Social: Instagram",
+              name: "socialInsta",
+              widget: "string",
+            }
 
-  # Colecția 2: Pagini (Folder cu fișiere multiple)
+  # --- 2. PAGINILE PRINCIPALE ---
   - name: "pages"
-    label: "Pages"
-    # MODIFICAT: Am scos 'src/' din cale
-    folder: "content/pages"
-    create: true
-    slug: "{{slug}}"
-    format: "json"
-    fields:
-      - label: "SEO"
-        name: "seo"
-        widget: "object"
-        collapsed: true
+    label: "📄 Main Pages"
+    files:
+      # HOME
+      - label: "Home Page"
+        name: "home"
+        file: "content/pages/home.json"
+        format: "json"
         fields:
-          - label: "SEO title"
-            name: "title"
-            widget: "string"
-            required: false
-          - label: "Meta description"
-            name: "description"
-            widget: "text"
-            required: false
+          - {
+              label: "SEO Title",
+              name: "seoTitle",
+              widget: "string",
+              required: false,
+            }
+          - label: "Hero Section"
+            name: "hero"
+            widget: "object"
+            fields:
+              - { label: "Main Title", name: "title", widget: "string" }
+          - label: "Coffee Section"
+            name: "coffee"
+            widget: "object"
+            fields:
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Image", name: "image", widget: "image" }
+              - { label: "Image Caption", name: "caption", widget: "string" }
+              - {
+                  label: "Description (Markdown)",
+                  name: "body",
+                  widget: "markdown",
+                }
+          - label: "Gallery Section"
+            name: "gallery"
+            widget: "object"
+            fields:
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Subtitle", name: "subtitle", widget: "text" }
+              - label: "Gallery Images"
+                name: "items"
+                widget: "list"
+                fields:
+                  - { label: "Image", name: "image", widget: "image" }
+                  - { label: "Caption", name: "caption", widget: "string" }
 
-      - label: "Page title"
-        name: "title"
-        widget: "string"
-
-      - label: "Subtitle"
-        name: "subtitle"
-        widget: "string"
-        required: false
-
-      - label: "Hero image"
-        name: "heroImage"
-        widget: "image"
-        required: false
-        hint: "Main image (does not change CSS, only the source)"
-
-      - label: "Body"
-        name: "body"
-        widget: "markdown"
-        required: false
-
-      - label: "Sections"
-        name: "sections"
-        widget: "list"
-        required: false
-        summary: "{{fields.title}}"
+      # ABOUT
+      - label: "About Page"
+        name: "about"
+        file: "content/pages/about.json"
+        format: "json"
         fields:
-          - label: "ID (optional)"
-            name: "id"
-            widget: "string"
-            required: false
-            hint: "Can link section to an element with data-cms-section='id'"
-          - label: "Title"
-            name: "title"
-            widget: "string"
-            required: false
-          - label: "Content"
-            name: "content"
-            widget: "markdown"
-            required: false
-          - label: "Image"
-            name: "image"
-            widget: "image"
-            required: false
+          - {
+              label: "SEO Title",
+              name: "seoTitle",
+              widget: "string",
+              required: false,
+            }
+          - { label: "Page Title", name: "title", widget: "string" }
+          - { label: "Hero Image", name: "heroImage", widget: "image" }
+          - {
+              label: "Main Story (Markdown)",
+              name: "story",
+              widget: "markdown",
+            }
+          - label: "Photo Grid"
+            name: "images"
+            widget: "list"
+            fields:
+              - { label: "Image", name: "src", widget: "image" }
+              - { label: "Caption", name: "caption", widget: "string" }
 
-      - label: "Extra bindings (advanced)"
-        name: "bindings"
-        widget: "object"
-        collapsed: true
+      # CONTACT
+      - label: "Contact Page"
+        name: "contact"
+        file: "content/pages/contact.json"
+        format: "json"
         fields:
-          - label: "Key → Value map (JSON)"
-            name: "map"
-            widget: "text"
-            required: false
-            hint: 'Example: {"header.small":"Small text","footer.note":"Allergens info"}'
+          - { label: "Page Title", name: "title", widget: "string" }
+          - { label: "Subtitle / Message", name: "intro", widget: "text" }
+
+  # --- 3. MAGAZINE (STORES) ---
+  - name: "stores"
+    label: "☕ Stores"
+    files:
+      - label: "Charlton Kings"
+        name: "store-charlton-kings"
+        file: "content/pages/store-charlton-kings.json"
+        format: "json"
+        fields: &store_fields
+          - { label: "Store Name", name: "title", widget: "string" }
+          - { label: "Subtitle", name: "subtitle", widget: "string" }
+          - {
+              label: "Google Maps Link (Button)",
+              name: "mapLink",
+              widget: "string",
+            }
+          - {
+              label: "Google Maps Embed (Iframe)",
+              name: "mapEmbed",
+              widget: "string",
+            }
+          - label: "Reviews"
+            name: "reviews"
+            widget: "list"
+            fields:
+              - { label: "Review Text", name: "text", widget: "text" }
+              - { label: "Customer Name", name: "author", widget: "string" }
+
+      - label: "Moosh at the MX"
+        name: "store-mx"
+        file: "content/pages/store-mx.json"
+        format: "json"
+        fields: *store_fields
+
+      - label: "Moosh at the Site"
+        name: "store-site"
+        file: "content/pages/store-site.json"
+        format: "json"
+        fields: *store_fields

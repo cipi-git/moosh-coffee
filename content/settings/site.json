@@ -1,5 +1,7 @@
 {
   "siteTitle": "Moosh Coffee Co",
-  "tagline": "Independent Coffee Shops in Cheltenham",
-  "primaryColor": "#0F2C33"
+  "contactEmail": "hello@mooshco.com",
+  "contactPhone": "+447837845099",
+  "socialFb": "https://www.facebook.com/mooshco",
+  "socialInsta": "https://www.instagram.com/mooshco/"
 }

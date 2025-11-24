@@ -1,178 +1,148 @@
-/* assets/js/cms.js */
 (function () {
-  // 1. Siguranță: Nu rulăm scriptul dacă suntem în panoul de admin
+  // 1. Ignorăm panoul de admin
   if (location.pathname.startsWith("/admin")) return;
 
-  // Utilitare pentru selectarea elementelor DOM (mai rapid decât document.querySelector mereu)
   const q = (sel, root = document) => root.querySelector(sel);
   const qa = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+  const cacheBust = () => "?v=" + Date.now();
 
-  // Funcție anti-cache: asigură că vedem mereu ultima versiune a conținutului
-  const cacheBust = () => "?cache=" + Date.now();
-
-  // Funcție helper pentru a extrage valori din obiecte folosind string-uri (ex: "seo.title")
+  // Helper pentru a extrage date nested (ex: "hero.title")
   function get(obj, path) {
     if (!obj || !path) return undefined;
     return path
       .split(".")
-      .reduce((acc, key) => (acc ? acc[key] : undefined), obj);
+      .reduce(
+        (acc, key) => (acc && acc[key] !== undefined ? acc[key] : undefined),
+        obj
+      );
   }
 
-  // Funcție generică pentru a descărca fișierele JSON
+  // Fetcher date
   async function fetchJSON(path) {
-    const res = await fetch(path + cacheBust(), { cache: "no-store" });
-    if (!res.ok) throw new Error("Fetch " + res.status + ": " + path);
-    return res.json();
+    try {
+      const res = await fetch(path + cacheBust());
+      if (!res.ok) throw new Error(res.status);
+      return await res.json();
+    } catch (e) {
+      console.warn(`[CMS] Missing data: ${path}`);
+      return {};
+    }
   }
 
-  // Harta paginilor: leagă URL-ul din browser de numele fișierului JSON
-  const PAGE_MAP = {
-    "/": "home",
-    "/index.html": "home",
-    "/about.html": "about",
-    "/contact.html": "contact",
-    "/stores.html": "stores",
-    "/store-charlton-kings.html": "store-charlton-kings",
-    "/store-mx.html": "store-mx",
-    "/store-site.html": "store-site",
-    "/moosh.html": "moosh",
-  };
-
+  // Identificare pagină
   function getPageKey() {
-    const body = document.body;
-    if (!body) return null;
-
-    // Prioritate 1: data-page setat direct în HTML (ex: <body data-page="about">)
-    if (body.dataset.page) return body.dataset.page;
-
-    // Prioritate 2: deducem din URL
+    if (document.body.dataset.page) return document.body.dataset.page;
     const path = location.pathname.replace(/\/+$/, "") || "/";
-    return PAGE_MAP[path] || null;
+    const map = {
+      "/": "home",
+      "/index.html": "home",
+      "/about.html": "about",
+      "/contact.html": "contact",
+      "/store-charlton-kings.html": "store-charlton-kings",
+      "/store-mx.html": "store-mx",
+      "/store-site.html": "store-site",
+    };
+    return map[path] || null;
   }
 
-  // Funcția principală care "hidratează" pagina cu date
   async function hydrate() {
     const pageKey = getPageKey();
-    if (!pageKey) return; // Dacă nu știm ce pagină e, nu facem nimic
+    if (!pageKey) return;
 
-    // A. Încărcăm setările globale (ex: Titlul site-ului, culori)
-    let settings = {};
-    try {
-      // MODIFICARE: Calea este acum simplificată (/content/...)
-      settings = await fetchJSON("/content/settings/site.json");
-    } catch (e) {
-      console.warn(
-        "[CMS] Settings JSON missing (poate nu ai creat încă folderul 'settings'?):",
-        e.message
-      );
-    }
+    // Încărcăm Global Settings + Datele Paginii
+    const [settings, page] = await Promise.all([
+      fetchJSON("/content/settings/site.json"),
+      fetchJSON(`/content/pages/${pageKey}.json`),
+    ]);
 
-    // B. Încărcăm conținutul specific paginii curente
-    let page = {};
-    try {
-      // MODIFICARE: Calea este acum simplificată (/content/...)
-      page = await fetchJSON("/content/pages/" + pageKey + ".json");
-    } catch (e) {
-      console.warn("[CMS] Page JSON missing:", pageKey, e.message);
-    }
+    const data = { settings, ...page }; // Combinăm datele
 
-    // --- APLICAREA DATELOR ÎN PAGINĂ ---
+    // 1. SEO
+    if (page.seoTitle) document.title = page.seoTitle;
+    else if (page.title && settings.siteTitle)
+      document.title = `${page.title} | ${settings.siteTitle}`;
 
-    // 1. Titlul documentului (Tab-ul browserului)
-    if (page.seo && page.seo.title) {
-      document.title = page.seo.title;
-    } else if (page.title && settings.siteTitle) {
-      document.title = page.title + " | " + settings.siteTitle;
-    } else if (page.title) {
-      document.title = page.title;
-    } else if (settings.siteTitle) {
-      document.title = settings.siteTitle;
-    }
-
-    // 2. Elementele standard: Titlu, Subtitlu, Corp text
-    const titleEl = q("#page-title, #home-title, main h1, h1");
-    const subtitleEl = q("#page-subtitle, #home-subtitle, main h2, h2");
-    const bodyEl = q("#page-body, #home-body, main p");
-
-    if (titleEl && (page.title || settings.siteTitle)) {
-      titleEl.textContent = page.title || settings.siteTitle;
-    }
-
-    if (subtitleEl && page.subtitle) {
-      subtitleEl.textContent = page.subtitle;
-    }
-
-    if (bodyEl && page.body) {
-      bodyEl.innerHTML = page.body; // Folosim innerHTML pentru că markdown-ul poate conține tag-uri
-    }
-
-    // 3. Imaginea Hero (Principală)
-    if (page.heroImage) {
-      // Căutăm imaginea după un atribut specific sau clase comune
-      const heroImg =
-        q("[data-hero-image]") || q(".hero img") || q(".hero-image img");
-      if (heroImg) {
-        heroImg.src = page.heroImage;
-      }
-    }
-
-    // 4. Legături de text generice (Data Bindings simple)
-    // Ex: <span data-cms-text="settings.tagline"></span>
-    qa("[data-cms-text]").forEach((el) => {
-      const path = el.getAttribute("data-cms-text");
-      const value = get({ settings, page }, path);
-      if (value !== undefined) el.textContent = value;
+    // 2. TEXT (innerHTML permite bold/italic din markdown)
+    qa("[data-cms]").forEach((el) => {
+      const val = get(data, el.dataset.cms);
+      if (val) el.innerHTML = val;
     });
 
-    // 5. Legături HTML generice (pentru text formatat)
-    qa("[data-cms-html]").forEach((el) => {
-      const path = el.getAttribute("data-cms-html");
-      const value = get({ settings, page }, path);
-      if (value !== undefined) el.innerHTML = value;
+    // 3. IMAGINI (src)
+    qa("[data-cms-img]").forEach((el) => {
+      const val = get(data, el.dataset.cmsImg);
+      if (val) el.src = val;
     });
 
-    // 6. Legături de atribute (avansat)
-    // Ex: <a data-cms-attr="href:page.ctaLink">Buton</a>
-    qa("[data-cms-attr]").forEach((el) => {
-      const raw = el.getAttribute("data-cms-attr");
-      if (!raw) return;
-      const parts = raw.split(":");
-      if (parts.length < 2) return;
-      const attr = parts[0].trim();
-      const path = parts.slice(1).join(":").trim();
-      if (!attr || !path) return;
-      const value = get({ settings, page }, path);
-      if (value !== undefined) el.setAttribute(attr, value);
+    // 4. LINK-URI (href) - ex: butonul de hartă sau social media
+    qa("[data-cms-href]").forEach((el) => {
+      const val = get(data, el.dataset.cmsHref);
+      if (val) el.href = val;
     });
 
-    // 7. Debugger mic (doar pe localhost) pentru a confirma că CMS-ul e conectat
-    if (
-      location.hostname === "localhost" ||
-      location.search.includes("cmsDebug")
-    ) {
-      const badge = document.createElement("div");
-      badge.textContent = "CMS Active: " + pageKey;
-      Object.assign(badge.style, {
-        position: "fixed",
-        right: "12px",
-        bottom: "12px",
-        background: "#a0e75a",
-        color: "#000",
-        padding: "6px 10px",
-        borderRadius: "8px",
-        font: "12px system-ui",
-        fontWeight: "bold",
-        zIndex: 9999,
-        boxShadow: "0 2px 5px rgba(0,0,0,0.2)",
+    // 5. IFRAME (src) - ex: Google Maps Embed
+    qa("[data-cms-src]").forEach((el) => {
+      const val = get(data, el.dataset.cmsSrc);
+      if (val) el.src = val;
+    });
+
+    // 6. LISTE (REVIEWS / GALERII)
+    qa("[data-cms-loop]").forEach((container) => {
+      const listPath = container.dataset.cmsLoop;
+      const listItems = get(data, listPath);
+
+      if (!Array.isArray(listItems) || listItems.length === 0) return;
+
+      // Template-ul este primul copil al containerului
+      const template = container.firstElementChild;
+      if (!template) return;
+
+      const templateClone = template.cloneNode(true); // Păstrăm o copie curată
+      container.innerHTML = ""; // Golim containerul
+
+      listItems.forEach((item) => {
+        const instance = templateClone.cloneNode(true);
+
+        // Populăm instanța
+        // a. Text
+        Array.from(instance.querySelectorAll("[data-cms-item]")).forEach(
+          (child) => {
+            const key = child.dataset.cmsItem;
+            if (item[key]) child.innerHTML = item[key];
+          }
+        );
+        // b. Imagini
+        Array.from(instance.querySelectorAll("[data-cms-item-img]")).forEach(
+          (child) => {
+            const key = child.dataset.cmsItemImg;
+            if (item[key]) child.src = item[key];
+          }
+        );
+
+        container.appendChild(instance);
       });
-      document.body.appendChild(badge);
+    });
+
+    // Footer Links Globale (Social & Contact)
+    if (settings.contactEmail) {
+      const el = q("a[href^='mailto:']");
+      if (el) el.href = `mailto:${settings.contactEmail}`;
+    }
+    if (settings.contactPhone) {
+      const el = q("a[href^='tel:']");
+      if (el) el.href = `tel:${settings.contactPhone}`;
+    }
+    if (settings.socialFb) {
+      const el = q("a[aria-label*='Facebook']");
+      if (el) el.href = settings.socialFb;
+    }
+    if (settings.socialInsta) {
+      const el = q("a[aria-label*='Instagram']");
+      if (el) el.href = settings.socialInsta;
     }
   }
 
-  // Pornim hidratarea imediat ce DOM-ul e gata
-  if (document.readyState === "loading") {
+  if (document.readyState === "loading")
     document.addEventListener("DOMContentLoaded", hydrate);
-  } else {
-    hydrate();
-  }
+  else hydrate();
 })();

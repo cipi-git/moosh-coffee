@@ -1,4 +1,20 @@
 {
-  "title": "About Moosh",
-  "body": "Our story goes here."
+  "title": "About Us",
+  "seoTitle": "About Moosh Coffee",
+  "heroImage": "assets/images/about us.jpg",
+  "story": "<p>Moosh Coffee Co. started from a small space in Charlton Kings, Cheltenham in 2020.</p><p>Alex took over the business in 2022 and—with his Filipino heritage and a background in luxury hospitality in Dubai—has been making Moosh his own ever since.</p>",
+  "images": [
+    {
+      "src": "assets/images/at-the-site2.jpg",
+      "caption": "The SiTE (Chosen View Road)"
+    },
+    {
+      "src": "assets/images/MX moosh.jpg",
+      "caption": "The MX (Chester Walk)"
+    },
+    {
+      "src": "assets/images/Noosh.jpg",
+      "caption": "Charlton Kings (Church Piece)"
+    }
+  ]
 }

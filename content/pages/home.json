@@ -1,6 +1,50 @@
 {
-  "title": "Moosh Coffee",
-  "subtitle": "Independent. Warm. Local.",
-  "heroImage": "",
-  "body": ""
+  "seoTitle": "Moosh Coffee Co - Independent Coffee Shops",
+  "hero": {
+    "title": "Independent Coffee Shops in Cheltenham"
+  },
+  "coffee": {
+    "title": "Our Passion for Clifton Coffee",
+    "image": "assets/images/our-coffee.jpg",
+    "caption": "Crafting unique coffee experiences since 2020",
+    "body": "<p>Great coffee starts with great beans! At Moosh, we are very fortunate to be one of only a few coffee shops in Cheltenham to serve Clifton Coffee, with whom we share the same passion for coffee.</p><p>Our coffee is loved by many for its well-balanced, easy-drinking espresso with depth and flavour notes of rum & raisin, dark chocolate and marmalade.</p><p>Our ‘Suspension’ coffee beans originate from the Fazenda Pinhal farm before being bagged and ready for you to enjoy at Moosh — or at home.</p>"
+  },
+  "gallery": {
+    "title": "Our Coffee & Food Moments",
+    "subtitle": "Great stories start with a brew.",
+    "items": [
+      {
+        "image": "assets/images/almond-latte.jpg",
+        "caption": "Sweetbird Almond Latte"
+      },
+      {
+        "image": "assets/images/bagel-foods.jpg",
+        "caption": "Fresh Bagels"
+      },
+      {
+        "image": "assets/images/coffee.png",
+        "caption": "Morning Brew"
+      },
+      {
+        "image": "assets/images/clifton-coffee.jpg",
+        "caption": " Locally roasted by Clifton Coffee — brewed with Bristol soul."
+      },
+      {
+        "image": "assets/images/sandwiches.jpg",
+        "caption": "BLT perfection — crispy bacon, fresh lettuce, soft bread."
+      },
+      {
+        "image": "assets/images/matcha-chai-latte.jpg",
+        "caption": "Matcha moments — earthy, creamy, and zen."
+      },
+      {
+        "image": "assets/images/capuchino-drinks.jpeg",
+        "caption": "Classic cappuccino — smooth, rich, and cozy."
+      },
+      {
+        "image": "assets/images/not-for-sale.jpg",
+        "caption": "Not for sale — but always part of the team! 🐾"
+      }
+    ]
+  }
 }
