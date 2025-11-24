@@ -4,16 +4,20 @@ backend:
 
 publish_mode: simple
 
+# Unde se salvează imaginile încărcate prin CMS
 media_folder: "assets/images/uploads"
+# Cum apar imaginile în codul HTML
 public_folder: "/assets/images/uploads"
 
 collections:
+  # Colecția 1: Setări Globale (Fișier unic)
   - name: "settings"
     label: "Global Settings"
     files:
       - label: "Site Settings"
         name: "site"
-        file: "src/content/settings/site.json"
+        # MODIFICAT: Am scos 'src/' din cale
+        file: "content/settings/site.json"
         format: "json"
         fields:
           - label: "Site title"
@@ -30,9 +34,11 @@ collections:
             required: false
             hint: "Ex: #0F2C33 (does not automatically change CSS, content only)"
 
+  # Colecția 2: Pagini (Folder cu fișiere multiple)
   - name: "pages"
     label: "Pages"
-    folder: "src/content/pages"
+    # MODIFICAT: Am scos 'src/' din cale
+    folder: "content/pages"
     create: true
     slug: "{{slug}}"
     format: "json"
@@ -104,4 +110,4 @@ collections:
             name: "map"
             widget: "text"
             required: false
-            hint: "Example: {"header.small":"Small text","footer.note":"Allergens info"}"
+            hint: 'Example: {"header.small":"Small text","footer.note":"Allergens info"}'

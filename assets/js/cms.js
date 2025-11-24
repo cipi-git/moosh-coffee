@@ -1,25 +1,31 @@
-\
 /* assets/js/cms.js */
 (function () {
-  // Do not run inside CMS admin
+  // 1. Siguranță: Nu rulăm scriptul dacă suntem în panoul de admin
   if (location.pathname.startsWith("/admin")) return;
 
+  // Utilitare pentru selectarea elementelor DOM (mai rapid decât document.querySelector mereu)
   const q = (sel, root = document) => root.querySelector(sel);
   const qa = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
+  // Funcție anti-cache: asigură că vedem mereu ultima versiune a conținutului
   const cacheBust = () => "?cache=" + Date.now();
 
+  // Funcție helper pentru a extrage valori din obiecte folosind string-uri (ex: "seo.title")
   function get(obj, path) {
     if (!obj || !path) return undefined;
-    return path.split(".").reduce((acc, key) => (acc ? acc[key] : undefined), obj);
+    return path
+      .split(".")
+      .reduce((acc, key) => (acc ? acc[key] : undefined), obj);
   }
 
+  // Funcție generică pentru a descărca fișierele JSON
   async function fetchJSON(path) {
     const res = await fetch(path + cacheBust(), { cache: "no-store" });
     if (!res.ok) throw new Error("Fetch " + res.status + ": " + path);
     return res.json();
   }
 
+  // Harta paginilor: leagă URL-ul din browser de numele fișierului JSON
   const PAGE_MAP = {
     "/": "home",
     "/index.html": "home",
@@ -29,38 +35,50 @@
     "/store-charlton-kings.html": "store-charlton-kings",
     "/store-mx.html": "store-mx",
     "/store-site.html": "store-site",
-    "/moosh.html": "moosh"
+    "/moosh.html": "moosh",
   };
 
   function getPageKey() {
     const body = document.body;
     if (!body) return null;
 
+    // Prioritate 1: data-page setat direct în HTML (ex: <body data-page="about">)
     if (body.dataset.page) return body.dataset.page;
 
+    // Prioritate 2: deducem din URL
     const path = location.pathname.replace(/\/+$/, "") || "/";
     return PAGE_MAP[path] || null;
   }
 
+  // Funcția principală care "hidratează" pagina cu date
   async function hydrate() {
     const pageKey = getPageKey();
-    if (!pageKey) return;
+    if (!pageKey) return; // Dacă nu știm ce pagină e, nu facem nimic
 
+    // A. Încărcăm setările globale (ex: Titlul site-ului, culori)
     let settings = {};
     try {
-      settings = await fetchJSON("/src/content/settings/site.json");
+      // MODIFICARE: Calea este acum simplificată (/content/...)
+      settings = await fetchJSON("/content/settings/site.json");
     } catch (e) {
-      console.warn("[CMS] Settings JSON missing:", e.message);
+      console.warn(
+        "[CMS] Settings JSON missing (poate nu ai creat încă folderul 'settings'?):",
+        e.message
+      );
     }
 
+    // B. Încărcăm conținutul specific paginii curente
     let page = {};
     try {
-      page = await fetchJSON("/src/content/pages/" + pageKey + ".json");
+      // MODIFICARE: Calea este acum simplificată (/content/...)
+      page = await fetchJSON("/content/pages/" + pageKey + ".json");
     } catch (e) {
       console.warn("[CMS] Page JSON missing:", pageKey, e.message);
     }
 
-    // 1. Document title (SEO)
+    // --- APLICAREA DATELOR ÎN PAGINĂ ---
+
+    // 1. Titlul documentului (Tab-ul browserului)
     if (page.seo && page.seo.title) {
       document.title = page.seo.title;
     } else if (page.title && settings.siteTitle) {
@@ -71,7 +89,7 @@
       document.title = settings.siteTitle;
     }
 
-    // 2. Basic title / subtitle / body (fallback selectors)
+    // 2. Elementele standard: Titlu, Subtitlu, Corp text
     const titleEl = q("#page-title, #home-title, main h1, h1");
     const subtitleEl = q("#page-subtitle, #home-subtitle, main h2, h2");
     const bodyEl = q("#page-body, #home-body, main p");
@@ -85,11 +103,12 @@
     }
 
     if (bodyEl && page.body) {
-      bodyEl.innerHTML = page.body;
+      bodyEl.innerHTML = page.body; // Folosim innerHTML pentru că markdown-ul poate conține tag-uri
     }
 
-    // 3. Hero image swap (if you want to bind it)
+    // 3. Imaginea Hero (Principală)
     if (page.heroImage) {
+      // Căutăm imaginea după un atribut specific sau clase comune
       const heroImg =
         q("[data-hero-image]") || q(".hero img") || q(".hero-image img");
       if (heroImg) {
@@ -97,21 +116,23 @@
       }
     }
 
-    // 4. Generic text bindings
+    // 4. Legături de text generice (Data Bindings simple)
+    // Ex: <span data-cms-text="settings.tagline"></span>
     qa("[data-cms-text]").forEach((el) => {
       const path = el.getAttribute("data-cms-text");
       const value = get({ settings, page }, path);
       if (value !== undefined) el.textContent = value;
     });
 
-    // 5. Generic HTML bindings
+    // 5. Legături HTML generice (pentru text formatat)
     qa("[data-cms-html]").forEach((el) => {
       const path = el.getAttribute("data-cms-html");
       const value = get({ settings, page }, path);
       if (value !== undefined) el.innerHTML = value;
     });
 
-    // 6. Attribute bindings: data-cms-attr="href:page.cta.link"
+    // 6. Legături de atribute (avansat)
+    // Ex: <a data-cms-attr="href:page.ctaLink">Buton</a>
     qa("[data-cms-attr]").forEach((el) => {
       const raw = el.getAttribute("data-cms-attr");
       if (!raw) return;
@@ -124,10 +145,13 @@
       if (value !== undefined) el.setAttribute(attr, value);
     });
 
-    // 7. Small debug badge (local/dev only)
-    if (location.hostname === "localhost" || location.search.includes("cmsDebug")) {
+    // 7. Debugger mic (doar pe localhost) pentru a confirma că CMS-ul e conectat
+    if (
+      location.hostname === "localhost" ||
+      location.search.includes("cmsDebug")
+    ) {
       const badge = document.createElement("div");
-      badge.textContent = "CMS: " + pageKey;
+      badge.textContent = "CMS Active: " + pageKey;
       Object.assign(badge.style, {
         position: "fixed",
         right: "12px",
@@ -137,12 +161,15 @@
         padding: "6px 10px",
         borderRadius: "8px",
         font: "12px system-ui",
-        zIndex: 9999
+        fontWeight: "bold",
+        zIndex: 9999,
+        boxShadow: "0 2px 5px rgba(0,0,0,0.2)",
       });
       document.body.appendChild(badge);
     }
   }
 
+  // Pornim hidratarea imediat ce DOM-ul e gata
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", hydrate);
   } else {
